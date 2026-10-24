@@ -177,15 +177,18 @@
 
       <!-- Panel 3: Photographic Evidence -->
       <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
-        <div class="flex items-center space-x-2 border-b border-slate-100 pb-3 mb-4">
-          <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">3</div>
-          <h2 class="font-bold text-slate-900 text-base">Photographic Evidence</h2>
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+          <div class="flex items-center space-x-2">
+            <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">3</div>
+            <h2 class="font-bold text-slate-900 text-base">Photographic Evidence</h2>
+          </div>
+          <button type="button" onclick="addPhotoGroup()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-xs px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Photo Group</span>
+          </button>
         </div>
-        <div id="photosList" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
-        <label class="mt-3 border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-white rounded-xl py-4 flex items-center justify-center space-x-2 cursor-pointer text-slate-500 hover:text-indigo-600 transition text-sm font-medium">
-          <i class="fa-solid fa-camera"></i><span>Add Photo</span>
-          <input type="file" accept="image/*" multiple onchange="loadPhotos(event)" class="hidden">
-        </label>
+        <p class="text-[11px] text-slate-400 mb-3">Each group gets a title and description and starts on its own page, under the report header.</p>
+        <div id="photoGroupsContainer" class="space-y-6"></div>
       </div>
 
       <!-- Panel 4: Authorisation and Signature -->
@@ -299,6 +302,7 @@
       document.getElementById('surveyDate').value = new Date().toLocaleDateString('en-GB', options);
       addSection('General Overview');
       addSection('Key Findings');
+      addPhotoGroup();
       initSignaturePads();
 
       // Returned from fallback form POST redirect
@@ -379,7 +383,28 @@
       if (card) card.remove();
     }
 
-    function loadPhotos(event) {
+    let photoGroupCount = 0;
+    function addPhotoGroup() {
+      photoGroupCount++;
+      const id = photoGroupCount;
+      const card = document.createElement('div');
+      card.id = 'photo-group-' + id;
+      card.className = 'photo-group bg-slate-50 border border-slate-200 rounded-xl p-4 relative space-y-3';
+      card.innerHTML =
+        '<div class="flex items-center justify-between">' +
+          '<input type="text" placeholder="Group Title (e.g. Roof Condition)" class="group-title-input flex-grow mr-2 font-semibold px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" required>' +
+          '<button type="button" onclick="this.closest(\'.photo-group\').remove()" class="text-slate-400 hover:text-red-500 p-1.5 transition"><i class="fa-solid fa-trash-can text-sm"></i></button>' +
+        '</div>' +
+        '<textarea rows="2" placeholder="Group description..." class="group-desc-input w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>' +
+        '<div class="group-photos grid grid-cols-1 sm:grid-cols-2 gap-3"></div>' +
+        '<label class="border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-white rounded-xl py-3 flex items-center justify-center space-x-2 cursor-pointer text-slate-500 hover:text-indigo-600 transition text-sm font-medium">' +
+          '<i class="fa-solid fa-camera"></i><span>Add Photos to Group</span>' +
+          '<input type="file" accept="image/*" multiple onchange="loadPhotos(event, ' + id + ')" class="hidden">' +
+        '</label>';
+      document.getElementById('photoGroupsContainer').appendChild(card);
+    }
+
+    function loadPhotos(event, groupId) {
       const files = Array.prototype.slice.call(event.target.files);
       event.target.value = '';
       files.forEach(function (file) {
@@ -396,7 +421,7 @@
               '<img src="' + res.data + '" class="w-20 h-20 object-cover rounded-lg border border-slate-300">' +
               '<textarea rows="3" placeholder="Caption / location" class="photo-caption flex-1 px-2 py-1.5 rounded-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>' +
               '<button type="button" onclick="this.parentElement.remove()" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]"><i class="fa-solid fa-xmark"></i></button>';
-            document.getElementById('photosList').appendChild(item);
+            document.querySelector('#photo-group-' + groupId + ' .group-photos').appendChild(item);
           });
         };
         reader.readAsDataURL(file);
@@ -471,15 +496,21 @@
           };
         }
       );
-      const photos = Array.prototype.map.call(document.querySelectorAll('#photosList .photo-item'), function (p) {
-        return { data: p.dataset.base64, w: (+p.dataset.w || 1600), h: (+p.dataset.h || 1200), caption: (p.querySelector('.photo-caption').value || '').trim() };
+      const photoGroups = Array.prototype.map.call(document.querySelectorAll('#photoGroupsContainer .photo-group'), function (card, i) {
+        return {
+          title: (card.querySelector('.group-title-input').value || '').trim() || ('Photo Group ' + (i + 1)),
+          description: (card.querySelector('.group-desc-input').value || '').trim(),
+          photos: Array.prototype.map.call(card.querySelectorAll('.photo-item'), function (p) {
+            return { data: p.dataset.base64, w: (+p.dataset.w || 1600), h: (+p.dataset.h || 1200), caption: (p.querySelector('.photo-caption').value || '').trim() };
+          })
+        };
       });
       return {
         company: v('companyName') || '—', address: v('companyAddress'), contact: v('companyContact'),
         project: v('projectName') || '—', ref: v('projectRef') || '—', location: v('siteLocation') || '—',
         date: v('surveyDate'), authorTitle: authorTitle, authorName: v('authorName') || '—',
         client: v('clientName'), inspectionType: v('inspectionType'), conditions: v('siteConditions'), present: v('personsPresent'),
-        photos: photos,
+        photoGroups: photoGroups,
         authName: v('authName'), authRole: v('authRole'),
         sigSurveyor: getSignature('surveyor'), sigAuth: getSignature('authoriser'),
         sections: sections, stamp: new Date().toLocaleString('en-GB'),
@@ -512,35 +543,31 @@
         return { w: dims.w * s, h: dims.h * s };
       };
 
-      function continuationHeader() {
-        setF(9, 'bold'); setC(COL.dark); txt(vals.company, M, M + 3);
-        setF(8, 'normal'); setC(COL.gray); txt('Report  |  Ref: ' + vals.ref, W - M, M + 3, { align: 'right' });
-        doc.setDrawColor(COL.indigo[0], COL.indigo[1], COL.indigo[2]); doc.setLineWidth(0.5);
-        doc.line(M, M + 5.5, W - M, M + 5.5);
-        y = M + 10;
+      /* Full branded header (same as page 1) drawn on every page */
+      function drawHeader() {
+        let ly = M;
+        if (vals.logo && vals.logoDims) {
+          const b = fitBox(vals.logoDims, 48, 15);
+          doc.addImage(vals.logo, imgFmt(vals.logo), M, ly, b.w, b.h);
+          ly += b.h + 2.5;
+        }
+        setF(15, 'bold'); setC(COL.dark); txt(vals.company, M, ly + 4); ly += 7;
+        if (vals.address) { setF(8.5, 'normal'); setC(COL.gray); const ls = doc.splitTextToSize(vals.address, 92); txt(ls, M, ly + 2); ly += ls.length * 3.6 + 1.5; }
+        if (vals.contact) { setF(8.5, 'normal'); setC(COL.gray); const ls = doc.splitTextToSize(vals.contact, 92); txt(ls, M, ly + 2); ly += ls.length * 3.6 + 1.5; }
+        setF(16, 'bold'); setC(COL.indigo); txt('REPORT', W - M, M + 6, { align: 'right' });
+        setF(9, 'normal'); setC(COL.gray);
+        txt('Ref: ' + vals.ref, W - M, M + 12, { align: 'right' });
+        txt('Date: ' + vals.date, W - M, M + 17, { align: 'right' });
+        const headBottom = Math.max(ly, M + 20) + 3;
+        doc.setFillColor(COL.indigo[0], COL.indigo[1], COL.indigo[2]);
+        doc.rect(M, headBottom, CW, 1.0, 'F');
+        y = headBottom + 6;
       }
       function ensure(h) {
-        if (y + h > H - FOOT) { doc.addPage(); continuationHeader(); }
+        if (y + h > H - FOOT) { doc.addPage(); drawHeader(); }
       }
 
-      /* ---- Page 1 branded header ---- */
-      let ly = M;
-      if (vals.logo && vals.logoDims) {
-        const b = fitBox(vals.logoDims, 48, 15);
-        doc.addImage(vals.logo, imgFmt(vals.logo), M, ly, b.w, b.h);
-        ly += b.h + 2.5;
-      }
-      setF(15, 'bold'); setC(COL.dark); txt(vals.company, M, ly + 4); ly += 7;
-      if (vals.address) { setF(8.5, 'normal'); setC(COL.gray); const ls = doc.splitTextToSize(vals.address, 92); txt(ls, M, ly + 2); ly += ls.length * 3.6 + 1.5; }
-      if (vals.contact) { setF(8.5, 'normal'); setC(COL.gray); const ls = doc.splitTextToSize(vals.contact, 92); txt(ls, M, ly + 2); ly += ls.length * 3.6 + 1.5; }
-      setF(16, 'bold'); setC(COL.indigo); txt('REPORT', W - M, M + 6, { align: 'right' });
-      setF(9, 'normal'); setC(COL.gray);
-      txt('Ref: ' + vals.ref, W - M, M + 12, { align: 'right' });
-      txt('Date: ' + vals.date, W - M, M + 17, { align: 'right' });
-      const headBottom = Math.max(ly, M + 20) + 3;
-      doc.setFillColor(COL.indigo[0], COL.indigo[1], COL.indigo[2]);
-      doc.rect(M, headBottom, CW, 1.0, 'F');
-      y = headBottom + 6;
+      drawHeader();
 
       /* ---- Numbered section heading ---- */
       function secHeading(num, title) {
@@ -634,19 +661,42 @@
         y += 8;
       });
 
-      /* ---- 3. Photographic Evidence ---- */
-      secHeading(3, 'Photographic Evidence');
-      if (!vals.photos.length) {
+      /* ---- 3. Photographic Evidence: each group on its own page(s) with header, title, description ---- */
+      const groups = vals.photoGroups.filter(function (g) { return g.photos.length || g.title || g.description; });
+      if (!groups.length) {
+        secHeading(3, 'Photographic Evidence');
         setF(9.5, 'italic'); setC(COL.gray); txt('No photographs attached.', M + 5, y); y += 10;
-      } else {
+      }
+      let photoNo = 0;
+      groups.forEach(function (g, gi) {
+        doc.addPage(); drawHeader();
+        if (gi === 0) secHeading(3, 'Photographic Evidence');
+
+        const barH = 9;
+        doc.setFillColor(COL.indigoBg[0], COL.indigoBg[1], COL.indigoBg[2]);
+        doc.rect(M, y, CW, barH, 'F');
+        doc.setFillColor(COL.indigo[0], COL.indigo[1], COL.indigo[2]);
+        doc.rect(M, y, 1.6, barH, 'F');
+        setF(11, 'bold'); setC(COL.dark);
+        txt(doc.splitTextToSize('3.' + (gi + 1) + '  ' + g.title, CW - 10)[0], M + 5, y + 6);
+        y += barH + 5;
+
+        if (g.description) {
+          setF(9.5, 'normal'); setC(COL.body);
+          g.description.split('\n').forEach(function (rawLine) {
+            doc.splitTextToSize(rawLine === '' ? ' ' : rawLine, CW - 10).forEach(function (ln) { ensure(5); txt(ln, M + 5, y); y += 4.4; });
+          });
+          y += 4;
+        }
+
         const gap = 6, cellW = (CW - gap) / 2, maxImgH = 75;
-        for (let i = 0; i < vals.photos.length; i += 2) {
-          const row = vals.photos.slice(i, i + 2).map(function (p) {
+        for (let i = 0; i < g.photos.length; i += 2) {
+          const row = g.photos.slice(i, i + 2).map(function (p, k) {
             const innerW = cellW - 8;
             let w = innerW, h = w * p.h / p.w;
             if (h > maxImgH) { h = maxImgH; w = h * p.w / p.h; }
             setF(8, 'normal');
-            const cap = doc.splitTextToSize('Photo ' + (vals.photos.indexOf(p) + 1) + (p.caption ? ': ' + p.caption : ''), cellW - 8);
+            const cap = doc.splitTextToSize('Photo ' + (photoNo + i + k + 1) + (p.caption ? ': ' + p.caption : ''), cellW - 8);
             return { p: p, w: w, h: h, cap: cap };
           });
           const rowH = Math.max.apply(null, row.map(function (r) { return r.h + r.cap.length * 3.6; })) + 10;
@@ -664,8 +714,11 @@
           });
           y = rowY + rowH + 6;
         }
-      }
-      y += 4;
+        photoNo += g.photos.length;
+      });
+
+      /* Signatures start on a fresh page when photo groups were added */
+      if (groups.length) { doc.addPage(); drawHeader(); }
 
       /* ---- 4. Authorisation and Signature ---- */
       secHeading(4, 'Authorisation and Signature');
