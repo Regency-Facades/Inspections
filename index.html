@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Professional Site Survey & Report Generator</title>
+  <title>Professional Assessment & Report Generator</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- jsPDF (vector PDF generation - reliable on mobile, real headers/footers) -->
@@ -25,7 +25,7 @@
           <i class="fa-solid fa-file-shield text-lg"></i>
         </div>
         <div>
-          <h1 class="font-bold text-base leading-tight">SiteInspect Pro</h1>
+          <h1 class="font-bold text-base leading-tight">ReportPro</h1>
           <p class="text-xs text-slate-400">PDF Report & FormSubmit Generator</p>
         </div>
       </div>
@@ -76,13 +76,13 @@
           <!-- Company Name -->
           <div>
             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Company Name <span class="text-red-500">*</span></label>
-            <input type="text" id="companyName" required placeholder="e.g. Acme Surveying Ltd." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            <input type="text" id="companyName" required placeholder="e.g. Acme Consulting Ltd." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
           </div>
 
           <!-- Company Address / Tagline -->
           <div>
             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Company Address / Tagline</label>
-            <input type="text" id="companyAddress" placeholder="e.g. 123 Building St, City, ST 12345" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            <input type="text" id="companyAddress" placeholder="e.g. 123 Main St, City, ST 12345" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
           </div>
 
           <!-- Contact Details -->
@@ -97,7 +97,7 @@
       <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
         <div class="flex items-center space-x-2 border-b border-slate-100 pb-3 mb-4">
           <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">1</div>
-          <h2 class="font-bold text-slate-900 text-base">Survey / Inspection Details</h2>
+          <h2 class="font-bold text-slate-900 text-base">Report Details</h2>
         </div>
 
         <div class="space-y-4">
@@ -107,32 +107,32 @@
               <input type="text" id="clientName" placeholder="e.g. Northwind Properties" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
             <div>
-              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Type of Inspection</label>
-              <input type="text" id="inspectionType" placeholder="e.g. Condition Survey" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Type of Assessment</label>
+              <input type="text" id="inspectionType" placeholder="e.g. Compliance Review" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
             <div>
-              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Weather / Site Conditions</label>
-              <input type="text" id="siteConditions" placeholder="e.g. Dry, 18°C" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Conditions / Context</label>
+              <input type="text" id="siteConditions" placeholder="e.g. Normal operations, fully staffed" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
             <div>
               <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Persons Present</label>
-              <input type="text" id="personsPresent" placeholder="e.g. J. Smith (Site Manager)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+              <input type="text" id="personsPresent" placeholder="e.g. J. Smith (Operations Manager)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
           </div>
           <div>
             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Project Name <span class="text-red-500">*</span></label>
-            <input type="text" id="projectName" required placeholder="e.g. Downtown Office Renovation" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            <input type="text" id="projectName" required placeholder="e.g. Q3 Facilities Review" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
           </div>
           <div>
             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Reference / Job Number <span class="text-red-500">*</span></label>
             <input type="text" id="projectRef" required placeholder="e.g. REF-2026-09" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Site Location / Address <span class="text-red-500">*</span></label>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Location / Address <span class="text-red-500">*</span></label>
             <input type="text" id="siteLocation" required placeholder="e.g. 123 Business Avenue, City, State, ZIP" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
           </div>
           <div>
-            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Date of Survey <span class="text-red-500">*</span></label>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Date of Assessment <span class="text-red-500">*</span></label>
             <input type="text" id="surveyDate" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-700 text-sm">
           </div>
 
@@ -140,10 +140,10 @@
             <div>
               <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Author Title / Role</label>
               <select id="authorTitleSelect" onchange="toggleCustomTitle(this)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
-                <option value="Surveyor">Surveyor</option>
-                <option value="Inspector">Inspector</option>
-                <option value="Site Manager">Site Manager</option>
                 <option value="Author">Author</option>
+                <option value="Assessor">Assessor</option>
+                <option value="Reviewer">Reviewer</option>
+                <option value="Manager">Manager</option>
                 <option value="Auditor">Auditor</option>
                 <option value="Custom">Custom...</option>
               </select>
@@ -153,14 +153,14 @@
               <input type="text" id="customAuthorTitle" placeholder="e.g. Senior Consultant" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
             <div class="sm:col-span-2">
-              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Survey Author (Full Name) <span class="text-red-500">*</span></label>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Report Author (Full Name) <span class="text-red-500">*</span></label>
               <input type="text" id="authorName" required placeholder="Your Full Name" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
             </div>
           </div>
         </div>
       </div>
 
-      <!-- Panel 3: Inspection Sections & Observations -->
+      <!-- Panel 2: Observations -->
       <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
         <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
           <div class="flex items-center space-x-2">
@@ -196,8 +196,8 @@
         </div>
         <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
           <div class="space-y-2">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-600">Surveyor / Inspector</p>
-            <p class="text-[11px] text-slate-400">Name and role are taken from Survey Details.</p>
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-600">Author / Assessor</p>
+            <p class="text-[11px] text-slate-400">Name and role are taken from Report Details.</p>
             <div class="sig-wrap" data-pad="surveyor"></div>
           </div>
           <div class="space-y-2">
@@ -244,8 +244,8 @@
     <input type="hidden" name="_next"      id="fsNext" value="">
     <input type="hidden" name="Project_Name"  id="fsProject" value="">
     <input type="hidden" name="Reference"     id="fsRef" value="">
-    <input type="hidden" name="Site_Location" id="fsLocation" value="">
-    <input type="hidden" name="Survey_Date"   id="fsDate" value="">
+    <input type="hidden" name="Location" id="fsLocation" value="">
+    <input type="hidden" name="Report_Date"   id="fsDate" value="">
     <input type="hidden" name="Author_Name"   id="fsAuthor" value="">
     <input type="hidden" name="Company"       id="fsCompany" value="">
     <input type="file" name="attachment" id="fsFileInput">
@@ -267,7 +267,7 @@
         <i class="fa-solid fa-check"></i>
       </div>
       <h3 class="font-bold text-slate-900 text-lg">Report Sent Successfully!</h3>
-      <p class="text-xs text-slate-500">Your site survey PDF report (with all photos) has been emailed as an attachment via FormSubmit.</p>
+      <p class="text-xs text-slate-500">Your PDF report (with all photos) has been emailed as an attachment via FormSubmit.</p>
       <button onclick="closeSuccessModal()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded-xl text-sm transition">Done</button>
     </div>
   </div>
@@ -297,8 +297,8 @@
     window.onload = function () {
       const options = { day: 'numeric', month: 'short', year: 'numeric' };
       document.getElementById('surveyDate').value = new Date().toLocaleDateString('en-GB', options);
-      addSection('North Elevation');
-      addSection('Interior / Finishes');
+      addSection('General Overview');
+      addSection('Key Findings');
       initSignaturePads();
 
       // Returned from fallback form POST redirect
@@ -362,13 +362,13 @@
         '<div class="flex items-center justify-between">' +
           '<div class="flex items-center space-x-2 flex-grow mr-2">' +
             '<span class="text-xs font-bold text-slate-400">#' + id + '</span>' +
-            '<input type="text" placeholder="Category Name (e.g. North Elevation)" value="' + (defaultCategoryName || '') + '" class="category-name-input w-full font-semibold px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" required>' +
+            '<input type="text" placeholder="Category Name (e.g. General Overview)" value="' + (defaultCategoryName || '') + '" class="category-name-input w-full font-semibold px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" required>' +
           '</div>' +
           '<button type="button" onclick="removeSection(' + id + ')" class="text-slate-400 hover:text-red-500 p-1.5 transition"><i class="fa-solid fa-trash-can text-sm"></i></button>' +
         '</div>' +
         '<div>' +
           '<label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Observations / Notes</label>' +
-          '<textarea rows="3" placeholder="Enter detailed observations, defects, or notes for this category..." class="category-notes-input w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>' +
+          '<textarea rows="3" placeholder="Enter detailed observations, issues, or notes for this category..." class="category-notes-input w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>' +
         '</div>' +
         '';
       container.appendChild(card);
@@ -488,7 +488,7 @@
     }
 
     function reportFileName(vals) {
-      return ('Site-Survey-Report-' + (vals.ref || 'survey').replace(/[^\w-]+/g, '_') + '.pdf');
+      return ('Report-' + (vals.ref || 'report').replace(/[^\w-]+/g, '_') + '.pdf');
     }
 
     /* ================= PROFESSIONAL VECTOR PDF (jsPDF) ================= */
@@ -514,7 +514,7 @@
 
       function continuationHeader() {
         setF(9, 'bold'); setC(COL.dark); txt(vals.company, M, M + 3);
-        setF(8, 'normal'); setC(COL.gray); txt('Site Survey Report  |  Ref: ' + vals.ref, W - M, M + 3, { align: 'right' });
+        setF(8, 'normal'); setC(COL.gray); txt('Report  |  Ref: ' + vals.ref, W - M, M + 3, { align: 'right' });
         doc.setDrawColor(COL.indigo[0], COL.indigo[1], COL.indigo[2]); doc.setLineWidth(0.5);
         doc.line(M, M + 5.5, W - M, M + 5.5);
         y = M + 10;
@@ -533,7 +533,7 @@
       setF(15, 'bold'); setC(COL.dark); txt(vals.company, M, ly + 4); ly += 7;
       if (vals.address) { setF(8.5, 'normal'); setC(COL.gray); const ls = doc.splitTextToSize(vals.address, 92); txt(ls, M, ly + 2); ly += ls.length * 3.6 + 1.5; }
       if (vals.contact) { setF(8.5, 'normal'); setC(COL.gray); const ls = doc.splitTextToSize(vals.contact, 92); txt(ls, M, ly + 2); ly += ls.length * 3.6 + 1.5; }
-      setF(16, 'bold'); setC(COL.indigo); txt('SITE SURVEY REPORT', W - M, M + 6, { align: 'right' });
+      setF(16, 'bold'); setC(COL.indigo); txt('REPORT', W - M, M + 6, { align: 'right' });
       setF(9, 'normal'); setC(COL.gray);
       txt('Ref: ' + vals.ref, W - M, M + 12, { align: 'right' });
       txt('Date: ' + vals.date, W - M, M + 17, { align: 'right' });
@@ -552,11 +552,11 @@
         y += 13;
       }
 
-      /* ---- 1. Survey / Inspection Details ---- */
-      secHeading(1, 'Survey / Inspection Details');
+      /* ---- 1. Report Details ---- */
+      secHeading(1, 'Report Details');
       const cols = [
         { label: 'PROJECT NAME', value: vals.project },
-        { label: 'SITE LOCATION', value: vals.location },
+        { label: 'LOCATION', value: vals.location },
         { label: vals.authorTitle.toUpperCase(), value: vals.authorName }
       ];
       const ratios = [0.36, 0.36, 0.28];
@@ -587,8 +587,8 @@
       y += boxH + 6;
 
       const extra = [
-        ['Reference', vals.ref], ['Date of Survey', vals.date], ['Client', vals.client],
-        ['Type of Inspection', vals.inspectionType], ['Weather / Conditions', vals.conditions], ['Persons Present', vals.present]
+        ['Reference', vals.ref], ['Date of Assessment', vals.date], ['Client', vals.client],
+        ['Type of Assessment', vals.inspectionType], ['Conditions / Context', vals.conditions], ['Persons Present', vals.present]
       ].filter(function (r) { return r[1]; });
       extra.forEach(function (r) {
         const lines = doc.splitTextToSize(r[1], CW - 48);
@@ -602,7 +602,7 @@
       /* ---- 2. Observations and Findings ---- */
       secHeading(2, 'Observations and Findings');
       if (!vals.sections.length) {
-        setF(10, 'italic'); setC(COL.gray); txt('No inspection sections recorded.', M, y + 5);
+        setF(10, 'italic'); setC(COL.gray); txt('No categories recorded.', M, y + 5);
         y += 12;
       }
       vals.sections.forEach(function (s, idx) {
@@ -672,7 +672,7 @@
       const sigH = 44, sigGap = 6, sigW = (CW - sigGap) / 2;
       ensure(sigH + 4);
       [
-        { title: 'SURVEYOR / INSPECTOR', name: vals.authorName, role: vals.authorTitle, sig: vals.sigSurveyor },
+        { title: 'AUTHOR / ASSESSOR', name: vals.authorName, role: vals.authorTitle, sig: vals.sigSurveyor },
         { title: 'AUTHORISED BY', name: vals.authName || '', role: vals.authRole || '', sig: vals.sigAuth }
       ].forEach(function (b, j) {
         const x0 = M + j * (sigW + sigGap);
@@ -764,13 +764,13 @@
           const file = new File([blob], name, { type: 'application/pdf' });
 
           const fd = new FormData();
-          fd.append('_subject', 'New Site Survey Report: ' + vals.project);
+          fd.append('_subject', 'New Report: ' + vals.project);
           fd.append('_template', 'table');
           fd.append('_captcha', 'false');
           fd.append('Project_Name', vals.project);
           fd.append('Reference', vals.ref);
-          fd.append('Site_Location', vals.location);
-          fd.append('Survey_Date', vals.date);
+          fd.append('Location', vals.location);
+          fd.append('Report_Date', vals.date);
           fd.append('Author_Name', vals.authorName);
           fd.append('Company', vals.company);
           fd.append('Attachment_Name', name);
@@ -802,7 +802,7 @@
     function fallbackSend(email, vals, file, name) {
       const hf = document.getElementById('formSubmitHiddenForm');
       hf.action = 'https://formsubmit.co/' + email;
-      document.getElementById('fsSubject').value = 'New Site Survey Report: ' + vals.project;
+      document.getElementById('fsSubject').value = 'New Report: ' + vals.project;
       document.getElementById('fsNext').value = location.origin + location.pathname + '?sent=1';
       document.getElementById('fsProject').value = vals.project;
       document.getElementById('fsRef').value = vals.ref;
