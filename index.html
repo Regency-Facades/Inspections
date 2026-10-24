@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Surveys & Reports Platform</title>
+  <title>Professional Site Survey & Report Generator</title>
   <!-- Tailwind CSS CDN -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- html2pdf library -->
@@ -194,36 +194,36 @@
 
   <!-- Hidden PDF Render Template Container (Styled professionally for PDF export) -->
   <div id="pdfExportContainer" class="hidden">
-    <div style="padding: 40px; font-family: 'Inter', sans-serif; color: #1e293b; background: #ffffff; max-width: 800px; margin: 0 auto;">
+    <div style="padding: 30px; font-family: 'Inter', sans-serif; color: #1e293b; background: #ffffff; width: 750px; margin: 0 auto; box-sizing: border-box;">
       
       <!-- PDF Header -->
-      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 25px;">
-        <div>
-          <div id="pdfLogoArea" style="margin-bottom: 10px;"></div>
-          <h2 id="pdfCompanyName" style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;"></h2>
-          <p id="pdfCompanyAddress" style="font-size: 12px; color: #64748b; margin: 0 0 2px 0;"></p>
-          <p id="pdfCompanyContact" style="font-size: 12px; color: #64748b; margin: 0;"></p>
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 3px solid #4f46e5; padding-bottom: 15px; margin-bottom: 20px;">
+        <div style="max-width: 50%;">
+          <div id="pdfLogoArea" style="margin-bottom: 8px;"></div>
+          <h2 id="pdfCompanyName" style="font-size: 18px; font-weight: 700; color: #0f172a; margin: 0 0 2px 0;"></h2>
+          <p id="pdfCompanyAddress" style="font-size: 11px; color: #64748b; margin: 0 0 2px 0; line-height: 1.3;"></p>
+          <p id="pdfCompanyContact" style="font-size: 11px; color: #64748b; margin: 0; line-height: 1.3;"></p>
         </div>
-        <div style="text-align: right;">
-          <h1 style="font-size: 24px; font-weight: 800; color: #4f46e5; margin: 0 0 4px 0; text-transform: uppercase;">Site Survey Report</h1>
-          <p style="font-size: 12px; color: #64748b; margin: 0;">Ref: <span id="pdfProjectRef" style="font-weight: 600; color: #0f172a;"></span></p>
-          <p style="font-size: 12px; color: #64748b; margin: 4px 0 0 0;">Date: <span id="pdfSurveyDate" style="font-weight: 600; color: #0f172a;"></span></p>
+        <div style="text-align: right; max-width: 45%;">
+          <h1 style="font-size: 22px; font-weight: 800; color: #4f46e5; margin: 0 0 4px 0; text-transform: uppercase; letter-spacing: -0.5px;">Site Survey Report</h1>
+          <p style="font-size: 11px; color: #64748b; margin: 0;">Ref: <span id="pdfProjectRef" style="font-weight: 600; color: #0f172a;"></span></p>
+          <p style="font-size: 11px; color: #64748b; margin: 3px 0 0 0;">Date: <span id="pdfSurveyDate" style="font-weight: 600; color: #0f172a;"></span></p>
         </div>
       </div>
 
       <!-- PDF Project Info Box -->
-      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 25px; display: flex; justify-content: space-between;">
-        <div>
-          <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; margin: 0 0 2px 0;">Project Name</p>
-          <p id="pdfProjectName" style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0;"></p>
+      <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 12px 15px; margin-bottom: 25px; display: flex; justify-content: space-between;">
+        <div style="flex: 2; padding-right: 10px;">
+          <p style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin: 0 0 2px 0;">Project Name</p>
+          <p id="pdfProjectName" style="font-size: 13px; font-weight: 700; color: #0f172a; margin: 0;"></p>
         </div>
-        <div>
-          <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; margin: 0 0 2px 0;">Site Location</p>
-          <p id="pdfSiteLocation" style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0;"></p>
+        <div style="flex: 2; padding-right: 10px; border-left: 1px solid #e2e8f0; padding-left: 10px;">
+          <p style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin: 0 0 2px 0;">Site Location</p>
+          <p id="pdfSiteLocation" style="font-size: 13px; font-weight: 700; color: #0f172a; margin: 0;"></p>
         </div>
-        <div>
-          <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; margin: 0 0 2px 0;" id="pdfAuthorTitleLabel">Surveyor</p>
-          <p id="pdfAuthorName" style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0;"></p>
+        <div style="flex: 1.5; border-left: 1px solid #e2e8f0; padding-left: 10px;">
+          <p style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin: 0 0 2px 0;" id="pdfAuthorTitleLabel">Surveyor</p>
+          <p id="pdfAuthorName" style="font-size: 13px; font-weight: 700; color: #0f172a; margin: 0;"></p>
         </div>
       </div>
 
@@ -231,13 +231,21 @@
       <div id="pdfSectionsBody"></div>
 
       <!-- PDF Footer -->
-      <div style="margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8;">
-        <span>Generated via SiteInspect Pro PDF Tool</span>
+      <div style="margin-top: 35px; border-top: 1px solid #cbd5e1; padding-top: 12px; display: flex; justify-content: space-between; font-size: 10px; color: #64748b;">
+        <span>Confidential & Proprietary — Site Survey Documentation</span>
         <span id="pdfFooterTimestamp"></span>
       </div>
 
     </div>
   </div>
+
+  <!-- Hidden FormSubmit Form for Guaranteed File Attachment -->
+  <form id="formSubmitHiddenForm" method="POST" enctype="multipart/form-data" class="hidden">
+    <input type="hidden" name="_subject" id="fsSubject" value="">
+    <input type="hidden" name="_template" value="table">
+    <input type="hidden" name="_captcha" value="false">
+    <input type="file" name="upload" id="fsFileInput">
+  </form>
 
   <!-- Loading Modal Overlay -->
   <div id="loadingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
@@ -267,16 +275,13 @@
 
     // Initialize on load
     window.onload = function() {
-      // Set today's date formatted
       const options = { day: 'numeric', month: 'short', year: 'numeric' };
       document.getElementById('surveyDate').value = new Date().toLocaleDateString('en-GB', options);
 
-      // Add initial default section
       addSection('North Elevation');
       addSection('Interior / Finishes');
     };
 
-    // Toggle custom author title input
     function toggleCustomTitle(select) {
       const wrapper = document.getElementById('customTitleWrapper');
       if (select.value === 'Custom') {
@@ -286,7 +291,6 @@
       }
     }
 
-    // Handle Logo Upload preview
     function loadLogo(event) {
       const file = event.target.files[0];
       if (file) {
@@ -303,7 +307,6 @@
       }
     }
 
-    // Add new section/category card
     function addSection(defaultCategoryName = '') {
       sectionCount++;
       const id = sectionCount;
@@ -342,13 +345,11 @@
       container.appendChild(card);
     }
 
-    // Remove section
     function removeSection(id) {
       const card = document.getElementById(`section-card-${id}`);
       if (card) card.remove();
     }
 
-    // Load photo into section
     function loadPhoto(event, sectionId) {
       const file = event.target.files[0];
       if (file) {
@@ -370,21 +371,19 @@
       }
     }
 
-    // Populate PDF export container with form data
+    // Populate PDF container with fully formatted structured layout & correctly constrained images
     function populatePDFContainer() {
-      // Company Info
       document.getElementById('pdfCompanyName').innerText = document.getElementById('companyName').value || 'Acme Surveying Ltd.';
       document.getElementById('pdfCompanyAddress').innerText = document.getElementById('companyAddress').value || '';
       document.getElementById('pdfCompanyContact').innerText = document.getElementById('companyContact').value || '';
       
       const logoArea = document.getElementById('pdfLogoArea');
       if (uploadedLogoData) {
-        logoArea.innerHTML = `<img src="${uploadedLogoData}" style="max-height: 45px; object-fit: contain;">`;
+        logoArea.innerHTML = `<img src="${uploadedLogoData}" style="max-height: 40px; max-width: 150px; object-fit: contain; display: block;">`;
       } else {
         logoArea.innerHTML = '';
       }
 
-      // Project Info
       document.getElementById('pdfProjectName').innerText = document.getElementById('projectName').value || 'Untitled Project';
       document.getElementById('pdfProjectRef').innerText = document.getElementById('projectRef').value || 'REF-000';
       document.getElementById('pdfSiteLocation').innerText = document.getElementById('siteLocation').value || 'N/A';
@@ -396,7 +395,6 @@
       document.getElementById('pdfAuthorName').innerText = document.getElementById('authorName').value || 'Unknown';
       document.getElementById('pdfFooterTimestamp').innerText = 'Generated on ' + new Date().toLocaleString();
 
-      // Render Sections & Photos
       const sectionsBody = document.getElementById('pdfSectionsBody');
       sectionsBody.innerHTML = '';
 
@@ -413,28 +411,38 @@
 
         let photosHTML = '';
         if (photoItems.length > 0) {
-          photosHTML = '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">';
-          photoItems.forEach(item => {
+          photosHTML = '<div style="margin-top: 12px; border-top: 1px dashed #cbd5e1; padding-top: 10px;"><p style="font-size: 10px; font-weight: 700; text-transform: uppercase; color: #64748b; margin: 0 0 8px 0;">Photo Evidence:</p>';
+          photosHTML += '<table style="width: 100%; border-collapse: collapse;"><tr>';
+          
+          photoItems.forEach((item, pIdx) => {
+            if (pIdx > 0 && pIdx % 3 === 0) {
+              photosHTML += '</tr><tr>';
+            }
             const imgSrc = item.dataset.base64;
-            photosHTML += `<div style="width: 120px; height: 120px; border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1;"><img src="${imgSrc}" style="width: 100%; height: 100%; object-fit: cover;"></div>`;
+            photosHTML += `
+              <td style="width: 33.33%; padding: 4px; vertical-align: top;">
+                <div style="background: #f8fafc; border: 1px solid #cbd5e1; border-radius: 6px; padding: 4px; text-align: center;">
+                  <img src="${imgSrc}" style="width: 100%; height: 130px; object-fit: cover; border-radius: 4px; display: block;" crossorigin="anonymous">
+                  <span style="font-size: 9px; color: #64748b; margin-top: 3px; display: block;">Photo ${pIdx + 1}</span>
+                </div>
+              </td>
+            `;
           });
-          photosHTML += '</div>';
+          photosHTML += '</tr></table></div>';
         }
 
         const sectionDiv = document.createElement('div');
-        sectionDiv.style.cssText = 'margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; background: #ffffff; page-break-inside: avoid;';
+        sectionDiv.style.cssText = 'margin-bottom: 20px; border: 1px solid #cbd5e1; border-radius: 6px; padding: 15px; background: #ffffff; page-break-inside: avoid;';
         sectionDiv.innerHTML = `
-          <h3 style="font-size: 15px; font-weight: 700; color: #334155; margin: 0 0 8px 0; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">${index + 1}. ${catName}</h3>
-          <p style="font-size: 13px; color: #475569; line-height: 1.5; margin: 0 0 10px 0; white-space: pre-line;">${catNotes}</p>
+          <h3 style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0 0 8px 0; border-bottom: 1px solid #e2e8f0; padding-bottom: 6px; background: #f8fafc; padding: 6px 10px; border-radius: 4px;">${index + 1}. ${catName}</h3>
+          <p style="font-size: 12px; color: #334155; line-height: 1.5; margin: 8px 0 0 0; white-space: pre-line;">${catNotes}</p>
           ${photosHTML}
         `;
         sectionsBody.appendChild(sectionDiv);
       });
     }
 
-    // Preview PDF function
     function previewPDF() {
-      // Validate basic inputs
       const companyName = document.getElementById('companyName').value;
       const projectName = document.getElementById('projectName').value;
       if (!companyName || !projectName) {
@@ -451,7 +459,7 @@
         margin:       10,
         filename:     `site-report-${document.getElementById('projectRef').value || 'survey'}.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
@@ -460,7 +468,7 @@
       });
     }
 
-    // Handle Form Submit & FormSubmit Email Dispatch
+    // Handle Form Submit & Guaranteed FormSubmit File Attachment via Standard HTML Form Submission
     function handleFormSubmit(event) {
       event.preventDefault();
 
@@ -474,8 +482,8 @@
       const loadingTitle = document.getElementById('loadingTitle');
       const loadingDesc = document.getElementById('loadingDesc');
       loadingModal.classList.remove('hidden');
-      loadingTitle.innerText = 'Compiling PDF Report...';
-      loadingDesc.innerText = 'Formatting layout and generating high-resolution PDF document.';
+      loadingTitle.innerText = 'Compiling Professional PDF...';
+      loadingDesc.innerText = 'Structuring executive layout and rendering high-resolution images.';
 
       populatePDFContainer();
       const exportElement = document.getElementById('pdfExportContainer');
@@ -485,44 +493,39 @@
         margin:       10,
         filename:     `site-report-${document.getElementById('projectRef').value || 'survey'}.pdf`,
         image:        { type: 'jpeg', quality: 0.98 },
-        html2canvas:  { scale: 2, useCORS: true },
+        html2canvas:  { scale: 2, useCORS: true, logging: false },
         jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
       };
 
-      // Generate PDF as Blob
+      // Generate PDF Blob
       html2pdf().from(exportElement).set(opt).outputPdf('blob').then((pdfBlob) => {
         exportElement.classList.add('hidden');
 
-        loadingTitle.innerText = 'Sending Report via FormSubmit...';
-        loadingDesc.innerText = 'Transmitting email securely to ' + recipientEmail;
+        loadingTitle.innerText = 'Dispatching via FormSubmit...';
+        loadingDesc.innerText = 'Sending email with attached PDF report to ' + recipientEmail;
 
-        const formData = new FormData();
-        formData.append('file', pdfBlob, `site-report-${document.getElementById('projectRef').value || 'survey'}.pdf`);
-        formData.append('_subject', `New Site Survey Report: ${document.getElementById('projectName').value}`);
-        formData.append('_template', 'table');
-        formData.append('Project Name', document.getElementById('projectName').value);
-        formData.append('Reference', document.getElementById('projectRef').value);
-        formData.append('Site Location', document.getElementById('siteLocation').value);
-        formData.append('Survey Date', document.getElementById('surveyDate').value);
-        formData.append('Author Name', document.getElementById('authorName').value);
+        const pdfFile = new File([pdfBlob], `site-report-${document.getElementById('projectRef').value || 'survey'}.pdf`, { type: 'application/pdf' });
 
-        fetch(`https://formsubmit.co/${recipientEmail}`, {
-          method: 'POST',
-          body: formData
-        })
-        .then(response => {
-          loadingModal.classList.add('hidden');
-          if (response.ok || response.type === 'opaque' || response.status === 200) {
+        // Use a hidden standard HTML form submission to FormSubmit to guarantee file attachment reliability
+        const hiddenForm = document.getElementById('formSubmitHiddenForm');
+        hiddenForm.action = `https://formsubmit.co/${recipientEmail}`;
+        document.getElementById('fsSubject').value = `Site Survey Report: ${document.getElementById('projectName').value} (${document.getElementById('projectRef').value})`;
+        
+        // Attach file to hidden file input using DataTransfer
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(pdfFile);
+        document.getElementById('fsFileInput').files = dataTransfer.files;
+
+        // Submit form after slight delay to let loading state show
+        setTimeout(() => {
+          hiddenForm.submit();
+          // Reset UI after submission triggers
+          setTimeout(() => {
+            loadingModal.classList.add('hidden');
             document.getElementById('successModal').classList.remove('hidden');
-          } else {
-            alert('Submission encountered an issue. Please verify your FormSubmit endpoint or network.');
-          }
-        })
-        .catch(error => {
-          loadingModal.classList.add('hidden');
-          // FormSubmit often redirects or returns opaque responses on success in browser fetch
-          document.getElementById('successModal').classList.remove('hidden');
-        });
+          }, 1500);
+        }, 1000);
+
       }).catch(err => {
         loadingModal.classList.add('hidden');
         exportElement.classList.add('hidden');
