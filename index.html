@@ -97,10 +97,28 @@
       <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
         <div class="flex items-center space-x-2 border-b border-slate-100 pb-3 mb-4">
           <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">1</div>
-          <h2 class="font-bold text-slate-900 text-base">Project Details</h2>
+          <h2 class="font-bold text-slate-900 text-base">Survey / Inspection Details</h2>
         </div>
 
         <div class="space-y-4">
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-3">
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Client Name</label>
+              <input type="text" id="clientName" placeholder="e.g. Northwind Properties" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Type of Inspection</label>
+              <input type="text" id="inspectionType" placeholder="e.g. Condition Survey" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Weather / Site Conditions</label>
+              <input type="text" id="siteConditions" placeholder="e.g. Dry, 18°C" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            </div>
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Persons Present</label>
+              <input type="text" id="personsPresent" placeholder="e.g. J. Smith (Site Manager)" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            </div>
+          </div>
           <div>
             <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Project Name <span class="text-red-500">*</span></label>
             <input type="text" id="projectName" required placeholder="e.g. Downtown Office Renovation" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
@@ -147,7 +165,7 @@
         <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
           <div class="flex items-center space-x-2">
             <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">2</div>
-            <h2 class="font-bold text-slate-900 text-base">Observation Categories & Photos</h2>
+            <h2 class="font-bold text-slate-900 text-base">Observations and Findings</h2>
           </div>
           <button type="button" onclick="addSection()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-xs px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
             <i class="fa-solid fa-plus"></i>
@@ -157,10 +175,44 @@
         <div id="sectionsContainer" class="space-y-6"></div>
       </div>
 
-      <!-- Panel 4: Recipient Email & Submission -->
+      <!-- Panel 3: Photographic Evidence -->
       <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
         <div class="flex items-center space-x-2 border-b border-slate-100 pb-3 mb-4">
           <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">3</div>
+          <h2 class="font-bold text-slate-900 text-base">Photographic Evidence</h2>
+        </div>
+        <div id="photosList" class="grid grid-cols-1 sm:grid-cols-2 gap-3"></div>
+        <label class="mt-3 border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-white rounded-xl py-4 flex items-center justify-center space-x-2 cursor-pointer text-slate-500 hover:text-indigo-600 transition text-sm font-medium">
+          <i class="fa-solid fa-camera"></i><span>Add Photo</span>
+          <input type="file" accept="image/*" multiple onchange="loadPhotos(event)" class="hidden">
+        </label>
+      </div>
+
+      <!-- Panel 4: Authorisation and Signature -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-3 mb-4">
+          <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">4</div>
+          <h2 class="font-bold text-slate-900 text-base">Authorisation and Signature</h2>
+        </div>
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-5">
+          <div class="space-y-2">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-600">Surveyor / Inspector</p>
+            <p class="text-[11px] text-slate-400">Name and role are taken from Survey Details.</p>
+            <div class="sig-wrap" data-pad="surveyor"></div>
+          </div>
+          <div class="space-y-2">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-600">Authorised By (Client / Representative)</p>
+            <input type="text" id="authName" placeholder="Full name" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <input type="text" id="authRole" placeholder="Position / Company" class="w-full px-3 py-2 rounded-lg border border-slate-300 text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500">
+            <div class="sig-wrap" data-pad="authoriser"></div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Submission -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-3 mb-4">
+          <div class="text-indigo-600"><i class="fa-solid fa-envelope"></i></div>
           <h2 class="font-bold text-slate-900 text-base">Destination Email</h2>
         </div>
 
@@ -247,6 +299,7 @@
       document.getElementById('surveyDate').value = new Date().toLocaleDateString('en-GB', options);
       addSection('North Elevation');
       addSection('Interior / Finishes');
+      initSignaturePads();
 
       // Returned from fallback form POST redirect
       const params = new URLSearchParams(location.search);
@@ -317,15 +370,7 @@
           '<label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Observations / Notes</label>' +
           '<textarea rows="3" placeholder="Enter detailed observations, defects, or notes for this category..." class="category-notes-input w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>' +
         '</div>' +
-        '<div>' +
-          '<label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Photo Evidence</label>' +
-          '<div class="flex flex-wrap gap-2 items-center" id="photos-list-' + id + '">' +
-            '<label class="border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-white rounded-lg w-20 h-20 flex flex-col items-center justify-center cursor-pointer text-slate-400 hover:text-indigo-600 transition">' +
-              '<i class="fa-solid fa-camera text-base mb-1"></i><span class="text-[10px] font-medium">Add Photo</span>' +
-              '<input type="file" accept="image/*" onchange="loadPhoto(event, ' + id + ')" class="hidden">' +
-            '</label>' +
-          '</div>' +
-        '</div>';
+        '';
       container.appendChild(card);
     }
 
@@ -334,26 +379,82 @@
       if (card) card.remove();
     }
 
-    function loadPhoto(event, sectionId) {
-      const file = event.target.files[0];
-      if (!file) return;
-      const reader = new FileReader();
-      reader.onload = function (e) {
-        // Downscale to keep the PDF light enough for email attachments
-        compressImage(e.target.result, 1600, true).then(function (res) {
-          const list = document.getElementById('photos-list-' + sectionId);
-          const wrapper = document.createElement('div');
-          wrapper.className = 'relative w-20 h-20 rounded-lg overflow-hidden border border-slate-300 shadow-sm group photo-item';
-          wrapper.dataset.base64 = res.data;
-          wrapper.dataset.w = res.w;
-          wrapper.dataset.h = res.h;
-          wrapper.innerHTML =
-            '<img src="' + res.data + '" class="w-full h-full object-cover">' +
-            '<button type="button" onclick="this.parentElement.remove()" class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] opacity-90 hover:opacity-100"><i class="fa-solid fa-xmark"></i></button>';
-          list.insertBefore(wrapper, list.lastElementChild);
+    function loadPhotos(event) {
+      const files = Array.prototype.slice.call(event.target.files);
+      event.target.value = '';
+      files.forEach(function (file) {
+        const reader = new FileReader();
+        reader.onload = function (e) {
+          // Downscale to keep the PDF light enough for email attachments
+          compressImage(e.target.result, 1600, true).then(function (res) {
+            const item = document.createElement('div');
+            item.className = 'photo-item relative flex space-x-3 bg-slate-50 border border-slate-200 rounded-xl p-2';
+            item.dataset.base64 = res.data;
+            item.dataset.w = res.w;
+            item.dataset.h = res.h;
+            item.innerHTML =
+              '<img src="' + res.data + '" class="w-20 h-20 object-cover rounded-lg border border-slate-300">' +
+              '<textarea rows="3" placeholder="Caption / location" class="photo-caption flex-1 px-2 py-1.5 rounded-lg border border-slate-300 bg-white text-xs focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>' +
+              '<button type="button" onclick="this.parentElement.remove()" class="absolute -top-2 -right-2 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px]"><i class="fa-solid fa-xmark"></i></button>';
+            document.getElementById('photosList').appendChild(item);
+          });
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+
+    /* ---------- Signature pads ---------- */
+    const sigPads = {};
+    function initSignaturePads() {
+      document.querySelectorAll('.sig-wrap').forEach(function (wrap) {
+        const key = wrap.dataset.pad;
+        wrap.innerHTML =
+          '<canvas class="w-full h-32 bg-white border-2 border-dashed border-slate-300 rounded-lg touch-none" style="touch-action:none"></canvas>' +
+          '<div class="flex justify-between items-center mt-1">' +
+            '<span class="text-[11px] text-slate-400">Sign above with finger, stylus or mouse</span>' +
+            '<button type="button" class="sig-clear text-xs text-red-500 hover:text-red-700 font-medium">Clear</button>' +
+          '</div>' +
+          '<div class="text-[11px] text-slate-500">Date: <span class="sig-date"></span></div>';
+        wrap.querySelector('.sig-date').textContent = new Date().toLocaleDateString('en-GB', { day: 'numeric', month: 'short', year: 'numeric' });
+        const canvas = wrap.querySelector('canvas');
+        const ctx = canvas.getContext('2d');
+        const pad = { canvas: canvas, empty: true, drawing: false };
+        sigPads[key] = pad;
+
+        function resize() {
+          const r = canvas.getBoundingClientRect();
+          const ratio = window.devicePixelRatio || 1;
+          canvas.width = Math.round(r.width * ratio);
+          canvas.height = Math.round(r.height * ratio);
+          ctx.setTransform(ratio, 0, 0, ratio, 0, 0);
+          ctx.lineWidth = 2; ctx.lineCap = 'round'; ctx.lineJoin = 'round'; ctx.strokeStyle = '#0f172a';
+          pad.empty = true;
+        }
+        function pos(e) {
+          const r = canvas.getBoundingClientRect();
+          return { x: e.clientX - r.left, y: e.clientY - r.top };
+        }
+        canvas.addEventListener('pointerdown', function (e) {
+          pad.drawing = true; canvas.setPointerCapture(e.pointerId);
+          const p = pos(e); ctx.beginPath(); ctx.moveTo(p.x, p.y); ctx.lineTo(p.x + 0.1, p.y + 0.1); ctx.stroke();
+          pad.empty = false;
         });
-      };
-      reader.readAsDataURL(file);
+        canvas.addEventListener('pointermove', function (e) {
+          if (!pad.drawing) return;
+          const p = pos(e); ctx.lineTo(p.x, p.y); ctx.stroke();
+        });
+        ['pointerup', 'pointercancel'].forEach(function (ev) {
+          canvas.addEventListener(ev, function () { pad.drawing = false; });
+        });
+        wrap.querySelector('.sig-clear').addEventListener('click', resize);
+        resize();
+        window.addEventListener('resize', function () { if (pad.empty) resize(); });
+      });
+    }
+    function getSignature(key) {
+      const pad = sigPads[key];
+      if (!pad || pad.empty) return null;
+      return { data: pad.canvas.toDataURL('image/png'), w: pad.canvas.width, h: pad.canvas.height };
     }
 
     /* ---------- Gather form values ---------- */
@@ -366,17 +467,21 @@
         function (card) {
           return {
             name: (card.querySelector('.category-name-input').value || '').trim() || 'Untitled Category',
-            notes: (card.querySelector('.category-notes-input').value || '').trim(),
-            photos: Array.prototype.map.call(card.querySelectorAll('.photo-item'), function (p) {
-              return { data: p.dataset.base64, w: (+p.dataset.w || 1600), h: (+p.dataset.h || 1200) };
-            })
+            notes: (card.querySelector('.category-notes-input').value || '').trim()
           };
         }
       );
+      const photos = Array.prototype.map.call(document.querySelectorAll('#photosList .photo-item'), function (p) {
+        return { data: p.dataset.base64, w: (+p.dataset.w || 1600), h: (+p.dataset.h || 1200), caption: (p.querySelector('.photo-caption').value || '').trim() };
+      });
       return {
         company: v('companyName') || '—', address: v('companyAddress'), contact: v('companyContact'),
         project: v('projectName') || '—', ref: v('projectRef') || '—', location: v('siteLocation') || '—',
         date: v('surveyDate'), authorTitle: authorTitle, authorName: v('authorName') || '—',
+        client: v('clientName'), inspectionType: v('inspectionType'), conditions: v('siteConditions'), present: v('personsPresent'),
+        photos: photos,
+        authName: v('authName'), authRole: v('authRole'),
+        sigSurveyor: getSignature('surveyor'), sigAuth: getSignature('authoriser'),
         sections: sections, stamp: new Date().toLocaleString('en-GB'),
         logo: uploadedLogoData, logoDims: logoDims
       };
@@ -437,7 +542,18 @@
       doc.rect(M, headBottom, CW, 1.0, 'F');
       y = headBottom + 6;
 
-      /* ---- Project info box ---- */
+      /* ---- Numbered section heading ---- */
+      function secHeading(num, title) {
+        ensure(16);
+        doc.setFillColor(COL.indigo[0], COL.indigo[1], COL.indigo[2]);
+        doc.rect(M, y, CW, 8, 'F');
+        setF(11, 'bold'); doc.setTextColor(255, 255, 255);
+        txt(num + '. ' + title.toUpperCase(), M + 4, y + 5.6);
+        y += 13;
+      }
+
+      /* ---- 1. Survey / Inspection Details ---- */
+      secHeading(1, 'Survey / Inspection Details');
       const cols = [
         { label: 'PROJECT NAME', value: vals.project },
         { label: 'SITE LOCATION', value: vals.location },
@@ -468,9 +584,23 @@
         }
         cx += cw;
       });
-      y += boxH + 8;
+      y += boxH + 6;
 
-      /* ---- Sections ---- */
+      const extra = [
+        ['Reference', vals.ref], ['Date of Survey', vals.date], ['Client', vals.client],
+        ['Type of Inspection', vals.inspectionType], ['Weather / Conditions', vals.conditions], ['Persons Present', vals.present]
+      ].filter(function (r) { return r[1]; });
+      extra.forEach(function (r) {
+        const lines = doc.splitTextToSize(r[1], CW - 48);
+        ensure(lines.length * 4.4 + 3);
+        setF(8, 'bold'); setC(COL.gray); txt(r[0].toUpperCase(), M + 2, y);
+        setF(9.5, 'normal'); setC(COL.body); txt(lines, M + 46, y);
+        y += lines.length * 4.4 + 1.5;
+      });
+      y += 6;
+
+      /* ---- 2. Observations and Findings ---- */
+      secHeading(2, 'Observations and Findings');
       if (!vals.sections.length) {
         setF(10, 'italic'); setC(COL.gray); txt('No inspection sections recorded.', M, y + 5);
         y += 12;
@@ -497,35 +627,6 @@
         }
         y += 2;
 
-        // Photos: 2-column grid, each image scaled to fit FULLY (never cropped)
-        if (s.photos.length) {
-          ensure(8);
-          setF(7.5, 'bold'); setC(COL.gray); txt('PHOTO EVIDENCE', M + 2, y + 3);
-          y += 6;
-          const gap = 6, cellW = (CW - gap) / 2, maxImgH = 75;
-          for (let i = 0; i < s.photos.length; i += 2) {
-            const row = s.photos.slice(i, i + 2).map(function (p) {
-              const innerW = cellW - 8;
-              let w = innerW, h = w * p.h / p.w;
-              if (h > maxImgH) { h = maxImgH; w = h * p.w / p.h; }
-              return { p: p, w: w, h: h };
-            });
-            const rowH = Math.max.apply(null, row.map(function (r) { return r.h; })) + 12;
-            ensure(rowH + 4);
-            const rowY = y;
-            row.forEach(function (r, j) {
-              const x0 = M + j * (cellW + gap);
-              doc.setFillColor(COL.boxBg[0], COL.boxBg[1], COL.boxBg[2]);
-              doc.setDrawColor(COL.line[0], COL.line[1], COL.line[2]);
-              doc.setLineWidth(0.3);
-              doc.roundedRect(x0, rowY, cellW, rowH, 1.5, 1.5, 'FD');
-              doc.addImage(r.p.data, imgFmt(r.p.data), x0 + (cellW - r.w) / 2, rowY + 4, r.w, r.h, undefined, 'FAST');
-              setF(7.5, 'normal'); setC(COL.gray);
-              txt('Photo ' + (i + j + 1), x0 + cellW / 2, rowY + rowH - 2.5, { align: 'center' });
-            });
-            y = rowY + rowH + 6;
-          }
-        }
         doc.setDrawColor(COL.line[0], COL.line[1], COL.line[2]);
         doc.setLineWidth(0.2);
         ensure(10);
@@ -533,16 +634,66 @@
         y += 8;
       });
 
-      /* ---- Signature / prepared-by block ---- */
-      ensure(26);
-      doc.setFillColor(COL.boxBg[0], COL.boxBg[1], COL.boxBg[2]);
-      doc.setDrawColor(COL.line[0], COL.line[1], COL.line[2]);
-      doc.setLineWidth(0.3);
-      doc.roundedRect(M, y, CW, 18, 2, 2, 'FD');
-      setF(7, 'bold'); setC(COL.gray); txt('PREPARED & SIGNED BY', M + 5, y + 6);
-      setF(10, 'bold'); setC(COL.dark); txt(vals.authorName + ' — ' + vals.authorTitle, M + 5, y + 12.5);
-      setF(8, 'normal'); setC(COL.gray); txt('Generated: ' + vals.stamp, W - M - 5, y + 12.5, { align: 'right' });
-      y += 24;
+      /* ---- 3. Photographic Evidence ---- */
+      secHeading(3, 'Photographic Evidence');
+      if (!vals.photos.length) {
+        setF(9.5, 'italic'); setC(COL.gray); txt('No photographs attached.', M + 5, y); y += 10;
+      } else {
+        const gap = 6, cellW = (CW - gap) / 2, maxImgH = 75;
+        for (let i = 0; i < vals.photos.length; i += 2) {
+          const row = vals.photos.slice(i, i + 2).map(function (p) {
+            const innerW = cellW - 8;
+            let w = innerW, h = w * p.h / p.w;
+            if (h > maxImgH) { h = maxImgH; w = h * p.w / p.h; }
+            setF(8, 'normal');
+            const cap = doc.splitTextToSize('Photo ' + (vals.photos.indexOf(p) + 1) + (p.caption ? ': ' + p.caption : ''), cellW - 8);
+            return { p: p, w: w, h: h, cap: cap };
+          });
+          const rowH = Math.max.apply(null, row.map(function (r) { return r.h + r.cap.length * 3.6; })) + 10;
+          ensure(rowH + 4);
+          const rowY = y;
+          row.forEach(function (r, j) {
+            const x0 = M + j * (cellW + gap);
+            doc.setFillColor(COL.boxBg[0], COL.boxBg[1], COL.boxBg[2]);
+            doc.setDrawColor(COL.line[0], COL.line[1], COL.line[2]);
+            doc.setLineWidth(0.3);
+            doc.roundedRect(x0, rowY, cellW, rowH, 1.5, 1.5, 'FD');
+            doc.addImage(r.p.data, imgFmt(r.p.data), x0 + (cellW - r.w) / 2, rowY + 4, r.w, r.h, undefined, 'FAST');
+            setF(8, 'normal'); setC(COL.gray);
+            txt(r.cap, x0 + cellW / 2, rowY + 4 + r.h + 5, { align: 'center' });
+          });
+          y = rowY + rowH + 6;
+        }
+      }
+      y += 4;
+
+      /* ---- 4. Authorisation and Signature ---- */
+      secHeading(4, 'Authorisation and Signature');
+      const sigH = 44, sigGap = 6, sigW = (CW - sigGap) / 2;
+      ensure(sigH + 4);
+      [
+        { title: 'SURVEYOR / INSPECTOR', name: vals.authorName, role: vals.authorTitle, sig: vals.sigSurveyor },
+        { title: 'AUTHORISED BY', name: vals.authName || '', role: vals.authRole || '', sig: vals.sigAuth }
+      ].forEach(function (b, j) {
+        const x0 = M + j * (sigW + sigGap);
+        doc.setFillColor(COL.boxBg[0], COL.boxBg[1], COL.boxBg[2]);
+        doc.setDrawColor(COL.line[0], COL.line[1], COL.line[2]);
+        doc.setLineWidth(0.3);
+        doc.roundedRect(x0, y, sigW, sigH, 2, 2, 'FD');
+        setF(7, 'bold'); setC(COL.gray); txt(b.title, x0 + 4, y + 6);
+        if (b.sig) {
+          const fb = fitBox({ w: b.sig.w, h: b.sig.h }, sigW - 12, 18);
+          doc.addImage(b.sig.data, 'PNG', x0 + 6, y + 8, fb.w, fb.h);
+        }
+        doc.setDrawColor(COL.gray[0], COL.gray[1], COL.gray[2]);
+        doc.line(x0 + 4, y + 28, x0 + sigW - 4, y + 28);
+        setF(9.5, 'bold'); setC(COL.dark); txt(doc.splitTextToSize(b.name || '________________', sigW - 8)[0], x0 + 4, y + 33);
+        setF(8, 'normal'); setC(COL.gray); txt(doc.splitTextToSize(b.role || '', sigW - 8)[0] || '', x0 + 4, y + 37.5);
+        txt('Date: ' + vals.date, x0 + 4, y + 41.5);
+      });
+      y += sigH + 4;
+      setF(8, 'normal'); setC(COL.gray); txt('Generated: ' + vals.stamp, W - M, y + 2, { align: 'right' });
+      y += 6;
 
       /* ---- Footer on EVERY page with page numbers ---- */
       const n = doc.getNumberOfPages();
