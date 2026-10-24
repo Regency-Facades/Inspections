@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Surveys & Reports Platform</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- html2pdf library -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+    body { font-family: 'Inter', sans-serif; }
+    .print-mode { background: white !important; color: black !important; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-800 antialiased min-h-screen flex flex-col">
+
+  <!-- Top App Bar -->
+  <header class="bg-slate-900 text-white sticky top-0 z-50 shadow-md">
+    <div class="max-w-4xl mx-auto px-4 py-3 flex justify-between items-center">
+      <div class="flex items-center space-x-2">
+        <div class="bg-indigo-600 p-2 rounded-lg text-white">
+          <i class="fa-solid fa-file-shield text-lg"></i>
+        </div>
+        <div>
+          <h1 class="font-bold text-base leading-tight">SiteInspect Pro</h1>
+          <p class="text-xs text-slate-400">PDF Report & FormSubmit Generator</p>
+        </div>
+      </div>
+      <button onclick="previewPDF()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5">
+        <i class="fa-solid fa-eye"></i>
+        <span>Preview PDF</span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Main Container -->
+  <main class="flex-grow max-w-4xl w-full mx-auto px-4 py-6">
+    
+    <!-- Intro Banner -->
+    <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 mb-6 text-sm text-slate-600">
+      <p class="leading-relaxed">
+        Complete the details below to generate a branded, formatted PDF report. Group observations and photos into categories. The final document will be emailed securely via FormSubmit.
+      </p>
+    </div>
+
+    <!-- Form Container -->
+    <form id="reportForm" onsubmit="handleFormSubmit(event)" class="space-y-6">
+
+      <!-- Panel 1: Company & Report Settings -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200 relative">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-3 mb-4">
+          <div class="text-indigo-600"><i class="fa-solid fa-gear"></i></div>
+          <h2 class="font-bold text-slate-900 text-base">Company & Report Settings (Header/Footer)</h2>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Company Logo Upload -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Company Logo</label>
+            <div id="logoDropZone" class="border-2 border-dashed border-slate-300 rounded-xl p-6 text-center hover:bg-slate-50 transition cursor-pointer relative">
+              <input type="file" id="logoInput" accept="image/*" onchange="loadLogo(event)" class="absolute inset-0 opacity-0 cursor-pointer w-full h-full">
+              <div id="logoPreviewContainer" class="flex flex-col items-center justify-center space-y-2">
+                <div class="w-10 h-10 rounded-full bg-indigo-50 text-indigo-600 flex items-center justify-center">
+                  <i class="fa-solid fa-cloud-arrow-up"></i>
+                </div>
+                <div class="text-xs font-medium text-slate-700">Upload Logo</div>
+                <p class="text-[11px] text-slate-400">PNG, JPG up to 5MB</p>
+              </div>
+            </div>
+          </div>
+
+          <!-- Company Name -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Company Name <span class="text-red-500">*</span></label>
+            <input type="text" id="companyName" required placeholder="e.g. Acme Surveying Ltd." class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+          </div>
+
+          <!-- Company Address / Tagline -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Company Address / Tagline</label>
+            <input type="text" id="companyAddress" placeholder="e.g. 123 Building St, City, ST 12345" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+          </div>
+
+          <!-- Contact Details -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Contact Details</label>
+            <input type="text" id="companyContact" placeholder="e.g. info@acme.com | 555-0192" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 2: Project Details & Author Customization -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-3 mb-4">
+          <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">1</div>
+          <h2 class="font-bold text-slate-900 text-base">Project Details</h2>
+        </div>
+
+        <div class="space-y-4">
+          <!-- Project Name -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Project Name <span class="text-red-500">*</span></label>
+            <input type="text" id="projectName" required placeholder="e.g. Downtown Office Renovation" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+          </div>
+
+          <!-- Reference / Job Number -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Reference / Job Number <span class="text-red-500">*</span></label>
+            <input type="text" id="projectRef" required placeholder="e.g. REF-2026-09" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+          </div>
+
+          <!-- Site Location / Address -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Site Location / Address <span class="text-red-500">*</span></label>
+            <input type="text" id="siteLocation" required placeholder="e.g. 123 Business Avenue, City, State, ZIP" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+          </div>
+
+          <!-- Date of Survey -->
+          <div>
+            <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Date of Survey <span class="text-red-500">*</span></label>
+            <input type="text" id="surveyDate" required class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 bg-slate-50 text-slate-700 text-sm">
+          </div>
+
+          <!-- Author Customization Section -->
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 pt-2">
+            <div>
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Author Title / Role</label>
+              <select id="authorTitleSelect" onchange="toggleCustomTitle(this)" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 bg-white focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+                <option value="Surveyor">Surveyor</option>
+                <option value="Inspector">Inspector</option>
+                <option value="Site Manager">Site Manager</option>
+                <option value="Author">Author</option>
+                <option value="Auditor">Auditor</option>
+                <option value="Custom">Custom...</option>
+              </select>
+            </div>
+            <div id="customTitleWrapper" class="hidden">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Custom Title</label>
+              <input type="text" id="customAuthorTitle" placeholder="e.g. Senior Consultant" class="w-full px-3 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            </div>
+            <div class="sm:col-span-2">
+              <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Survey Author (Full Name) <span class="text-red-500">*</span></label>
+              <input type="text" id="authorName" required placeholder="Your Full Name" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel 3: Inspection Sections & Observations -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+        <div class="flex items-center justify-between border-b border-slate-100 pb-3 mb-4">
+          <div class="flex items-center space-x-2">
+            <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">2</div>
+            <h2 class="font-bold text-slate-900 text-base">Observation Categories & Photos</h2>
+          </div>
+          <button type="button" onclick="addSection()" class="bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-medium text-xs px-3 py-1.5 rounded-lg transition flex items-center space-x-1">
+            <i class="fa-solid fa-plus"></i>
+            <span>Add Category</span>
+          </button>
+        </div>
+
+        <!-- Sections Container -->
+        <div id="sectionsContainer" class="space-y-6">
+          <!-- Dynamic Sections Injected Here -->
+        </div>
+      </div>
+
+      <!-- Panel 4: Recipient Email & Submission -->
+      <div class="bg-white rounded-2xl p-5 shadow-sm border border-slate-200">
+        <div class="flex items-center space-x-2 border-b border-slate-100 pb-3 mb-4">
+          <div class="text-indigo-600 font-bold text-sm bg-indigo-50 w-6 h-6 rounded-full flex items-center justify-center">3</div>
+          <h2 class="font-bold text-slate-900 text-base">Destination Email</h2>
+        </div>
+
+        <div>
+          <label class="block text-xs font-semibold uppercase tracking-wider text-slate-500 mb-1.5">Send Report To Email <span class="text-red-500">*</span></label>
+          <input type="email" id="recipientEmail" required placeholder="e.g. reports@yourcompany.com" class="w-full px-3.5 py-2.5 rounded-xl border border-slate-300 focus:outline-none focus:ring-2 focus:ring-indigo-500 text-sm">
+          <p class="text-xs text-slate-400 mt-1">The completed PDF report will be securely sent directly to this address via FormSubmit.</p>
+        </div>
+      </div>
+
+      <!-- Submit Action Button -->
+      <button type="submit" id="submitBtn" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-semibold py-3.5 px-6 rounded-2xl shadow-lg shadow-indigo-600/30 transition flex items-center justify-center space-x-2 text-base">
+        <i class="fa-solid fa-paper-plane"></i>
+        <span>Complete and Send Report</span>
+      </button>
+
+    </form>
+  </main>
+
+  <!-- Hidden PDF Render Template Container (Styled professionally for PDF export) -->
+  <div id="pdfExportContainer" class="hidden">
+    <div style="padding: 40px; font-family: 'Inter', sans-serif; color: #1e293b; background: #ffffff; max-width: 800px; margin: 0 auto;">
+      
+      <!-- PDF Header -->
+      <div style="display: flex; justify-content: space-between; align-items: flex-start; border-bottom: 2px solid #e2e8f0; padding-bottom: 20px; margin-bottom: 25px;">
+        <div>
+          <div id="pdfLogoArea" style="margin-bottom: 10px;"></div>
+          <h2 id="pdfCompanyName" style="font-size: 20px; font-weight: 700; color: #0f172a; margin: 0 0 4px 0;"></h2>
+          <p id="pdfCompanyAddress" style="font-size: 12px; color: #64748b; margin: 0 0 2px 0;"></p>
+          <p id="pdfCompanyContact" style="font-size: 12px; color: #64748b; margin: 0;"></p>
+        </div>
+        <div style="text-align: right;">
+          <h1 style="font-size: 24px; font-weight: 800; color: #4f46e5; margin: 0 0 4px 0; text-transform: uppercase;">Site Survey Report</h1>
+          <p style="font-size: 12px; color: #64748b; margin: 0;">Ref: <span id="pdfProjectRef" style="font-weight: 600; color: #0f172a;"></span></p>
+          <p style="font-size: 12px; color: #64748b; margin: 4px 0 0 0;">Date: <span id="pdfSurveyDate" style="font-weight: 600; color: #0f172a;"></span></p>
+        </div>
+      </div>
+
+      <!-- PDF Project Info Box -->
+      <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; margin-bottom: 25px; display: flex; justify-content: space-between;">
+        <div>
+          <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; margin: 0 0 2px 0;">Project Name</p>
+          <p id="pdfProjectName" style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0;"></p>
+        </div>
+        <div>
+          <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; margin: 0 0 2px 0;">Site Location</p>
+          <p id="pdfSiteLocation" style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0;"></p>
+        </div>
+        <div>
+          <p style="font-size: 11px; font-weight: 600; text-transform: uppercase; color: #64748b; margin: 0 0 2px 0;" id="pdfAuthorTitleLabel">Surveyor</p>
+          <p id="pdfAuthorName" style="font-size: 14px; font-weight: 700; color: #0f172a; margin: 0;"></p>
+        </div>
+      </div>
+
+      <!-- PDF Sections Rendered Here -->
+      <div id="pdfSectionsBody"></div>
+
+      <!-- PDF Footer -->
+      <div style="margin-top: 40px; border-top: 1px solid #e2e8f0; padding-top: 15px; display: flex; justify-content: space-between; font-size: 10px; color: #94a3b8;">
+        <span>Generated via SiteInspect Pro PDF Tool</span>
+        <span id="pdfFooterTimestamp"></span>
+      </div>
+
+    </div>
+  </div>
+
+  <!-- Loading Modal Overlay -->
+  <div id="loadingModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center space-y-4 shadow-xl">
+      <div class="w-12 h-12 border-4 border-indigo-600 border-t-transparent rounded-full animate-spin mx-auto"></div>
+      <h3 class="font-bold text-slate-900 text-lg" id="loadingTitle">Generating PDF Report...</h3>
+      <p class="text-xs text-slate-500" id="loadingDesc">Please wait while we compile and dispatch your report securely.</p>
+    </div>
+  </div>
+
+  <!-- Success Modal -->
+  <div id="successModal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-2xl p-6 max-w-sm w-full text-center space-y-4 shadow-xl">
+      <div class="w-14 h-14 bg-emerald-100 text-emerald-600 rounded-full flex items-center justify-center mx-auto text-2xl">
+        <i class="fa-solid fa-check"></i>
+      </div>
+      <h3 class="font-bold text-slate-900 text-lg">Report Sent Successfully!</h3>
+      <p class="text-xs text-slate-500">Your site survey PDF report has been compiled and emailed successfully via FormSubmit.</p>
+      <button onclick="closeSuccessModal()" class="w-full bg-slate-900 hover:bg-slate-800 text-white font-medium py-2.5 rounded-xl text-sm transition">Done</button>
+    </div>
+  </div>
+
+  <!-- JavaScript Logic -->
+  <script>
+    let sectionCount = 0;
+    let uploadedLogoData = null;
+
+    // Initialize on load
+    window.onload = function() {
+      // Set today's date formatted
+      const options = { day: 'numeric', month: 'short', year: 'numeric' };
+      document.getElementById('surveyDate').value = new Date().toLocaleDateString('en-GB', options);
+
+      // Add initial default section
+      addSection('North Elevation');
+      addSection('Interior / Finishes');
+    };
+
+    // Toggle custom author title input
+    function toggleCustomTitle(select) {
+      const wrapper = document.getElementById('customTitleWrapper');
+      if (select.value === 'Custom') {
+        wrapper.classList.remove('hidden');
+      } else {
+        wrapper.classList.add('hidden');
+      }
+    }
+
+    // Handle Logo Upload preview
+    function loadLogo(event) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          uploadedLogoData = e.target.result;
+          const container = document.getElementById('logoPreviewContainer');
+          container.innerHTML = `
+            <img src="${uploadedLogoData}" alt="Logo Preview" class="h-14 object-contain mx-auto rounded">
+            <span class="text-[11px] text-indigo-600 font-medium">Logo Uploaded Successfully (Click to Change)</span>
+          `;
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Add new section/category card
+    function addSection(defaultCategoryName = '') {
+      sectionCount++;
+      const id = sectionCount;
+      const container = document.getElementById('sectionsContainer');
+
+      const card = document.createElement('div');
+      card.id = `section-card-${id}`;
+      card.className = 'bg-slate-50 border border-slate-200 rounded-xl p-4 relative space-y-3';
+      card.innerHTML = `
+        <div class="flex items-center justify-between">
+          <div class="flex items-center space-x-2 flex-grow mr-2">
+            <span class="text-xs font-bold text-slate-400">#${id}</span>
+            <input type="text" placeholder="Category Name (e.g. North Elevation)" value="${defaultCategoryName}" class="category-name-input w-full font-semibold px-3 py-1.5 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500" required>
+          </div>
+          <button type="button" onclick="removeSection(${id})" class="text-slate-400 hover:text-red-500 p-1.5 transition">
+            <i class="fa-solid fa-trash-can text-sm"></i>
+          </button>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Observations / Notes</label>
+          <textarea rows="3" placeholder="Enter detailed observations, defects, or notes for this category..." class="category-notes-input w-full px-3 py-2 rounded-lg border border-slate-300 bg-white text-sm focus:outline-none focus:ring-2 focus:ring-indigo-500"></textarea>
+        </div>
+
+        <div>
+          <label class="block text-[11px] font-semibold uppercase tracking-wider text-slate-500 mb-1">Photo Evidence</label>
+          <div class="flex flex-wrap gap-2 items-center" id="photos-list-${id}">
+            <label class="border-2 border-dashed border-slate-300 hover:border-indigo-500 bg-white rounded-lg w-20 h-20 flex flex-col items-center justify-center cursor-pointer text-slate-400 hover:text-indigo-600 transition">
+              <i class="fa-solid fa-camera text-base mb-1"></i>
+              <span class="text-[10px] font-medium">Add Photo</span>
+              <input type="file" accept="image/*" onchange="loadPhoto(event, ${id})" class="hidden">
+            </label>
+          </div>
+        </div>
+      `;
+      container.appendChild(card);
+    }
+
+    // Remove section
+    function removeSection(id) {
+      const card = document.getElementById(`section-card-${id}`);
+      if (card) card.remove();
+    }
+
+    // Load photo into section
+    function loadPhoto(event, sectionId) {
+      const file = event.target.files[0];
+      if (file) {
+        const reader = new FileReader();
+        reader.onload = function(e) {
+          const list = document.getElementById(`photos-list-${sectionId}`);
+          const photoWrapper = document.createElement('div');
+          photoWrapper.className = 'relative w-20 h-20 rounded-lg overflow-hidden border border-slate-300 shadow-xs group photo-item';
+          photoWrapper.dataset.base64 = e.target.result;
+          photoWrapper.innerHTML = `
+            <img src="${e.target.result}" class="w-full h-full object-cover">
+            <button type="button" onclick="this.parentElement.remove()" class="absolute top-1 right-1 bg-red-600 text-white rounded-full w-5 h-5 flex items-center justify-center text-[10px] opacity-90 hover:opacity-100">
+              <i class="fa-solid fa-xmark"></i>
+            </button>
+          `;
+          list.insertBefore(photoWrapper, list.lastElementChild);
+        };
+        reader.readAsDataURL(file);
+      }
+    }
+
+    // Populate PDF export container with form data
+    function populatePDFContainer() {
+      // Company Info
+      document.getElementById('pdfCompanyName').innerText = document.getElementById('companyName').value || 'Acme Surveying Ltd.';
+      document.getElementById('pdfCompanyAddress').innerText = document.getElementById('companyAddress').value || '';
+      document.getElementById('pdfCompanyContact').innerText = document.getElementById('companyContact').value || '';
+      
+      const logoArea = document.getElementById('pdfLogoArea');
+      if (uploadedLogoData) {
+        logoArea.innerHTML = `<img src="${uploadedLogoData}" style="max-height: 45px; object-fit: contain;">`;
+      } else {
+        logoArea.innerHTML = '';
+      }
+
+      // Project Info
+      document.getElementById('pdfProjectName').innerText = document.getElementById('projectName').value || 'Untitled Project';
+      document.getElementById('pdfProjectRef').innerText = document.getElementById('projectRef').value || 'REF-000';
+      document.getElementById('pdfSiteLocation').innerText = document.getElementById('siteLocation').value || 'N/A';
+      document.getElementById('pdfSurveyDate').innerText = document.getElementById('surveyDate').value || '';
+
+      const authorTitleSelect = document.getElementById('authorTitleSelect').value;
+      const finalAuthorTitle = authorTitleSelect === 'Custom' ? (document.getElementById('customAuthorTitle').value || 'Author') : authorTitleSelect;
+      document.getElementById('pdfAuthorTitleLabel').innerText = finalAuthorTitle;
+      document.getElementById('pdfAuthorName').innerText = document.getElementById('authorName').value || 'Unknown';
+      document.getElementById('pdfFooterTimestamp').innerText = 'Generated on ' + new Date().toLocaleString();
+
+      // Render Sections & Photos
+      const sectionsBody = document.getElementById('pdfSectionsBody');
+      sectionsBody.innerHTML = '';
+
+      const cards = document.querySelectorAll('[id^="section-card-"]');
+      if (cards.length === 0) {
+        sectionsBody.innerHTML = '<p style="font-size: 12px; color: #64748b; font-style: italic;">No inspection sections recorded.</p>';
+        return;
+      }
+
+      cards.forEach((card, index) => {
+        const catName = card.querySelector('.category-name-input').value || `Category ${index + 1}`;
+        const catNotes = card.querySelector('.category-notes-input').value || 'No notes provided.';
+        const photoItems = card.querySelectorAll('.photo-item');
+
+        let photosHTML = '';
+        if (photoItems.length > 0) {
+          photosHTML = '<div style="display: flex; flex-wrap: wrap; gap: 10px; margin-top: 10px;">';
+          photoItems.forEach(item => {
+            const imgSrc = item.dataset.base64;
+            photosHTML += `<div style="width: 120px; height: 120px; border-radius: 6px; overflow: hidden; border: 1px solid #cbd5e1;"><img src="${imgSrc}" style="width: 100%; height: 100%; object-fit: cover;"></div>`;
+          });
+          photosHTML += '</div>';
+        }
+
+        const sectionDiv = document.createElement('div');
+        sectionDiv.style.cssText = 'margin-bottom: 20px; border: 1px solid #e2e8f0; border-radius: 8px; padding: 15px; background: #ffffff; page-break-inside: avoid;';
+        sectionDiv.innerHTML = `
+          <h3 style="font-size: 15px; font-weight: 700; color: #334155; margin: 0 0 8px 0; border-bottom: 1px solid #f1f5f9; padding-bottom: 6px;">${index + 1}. ${catName}</h3>
+          <p style="font-size: 13px; color: #475569; line-height: 1.5; margin: 0 0 10px 0; white-space: pre-line;">${catNotes}</p>
+          ${photosHTML}
+        `;
+        sectionsBody.appendChild(sectionDiv);
+      });
+    }
+
+    // Preview PDF function
+    function previewPDF() {
+      // Validate basic inputs
+      const companyName = document.getElementById('companyName').value;
+      const projectName = document.getElementById('projectName').value;
+      if (!companyName || !projectName) {
+        alert('Please fill in at least Company Name and Project Name before previewing.');
+        return;
+      }
+
+      populatePDFContainer();
+      
+      const element = document.getElementById('pdfExportContainer');
+      element.classList.remove('hidden');
+
+      const opt = {
+        margin:       10,
+        filename:     `site-report-${document.getElementById('projectRef').value || 'survey'}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      html2pdf().from(element).set(opt).save().then(() => {
+        element.classList.add('hidden');
+      });
+    }
+
+    // Handle Form Submit & FormSubmit Email Dispatch
+    function handleFormSubmit(event) {
+      event.preventDefault();
+
+      const recipientEmail = document.getElementById('recipientEmail').value;
+      if (!recipientEmail) {
+        alert('Please specify a valid recipient email.');
+        return;
+      }
+
+      const loadingModal = document.getElementById('loadingModal');
+      const loadingTitle = document.getElementById('loadingTitle');
+      const loadingDesc = document.getElementById('loadingDesc');
+      loadingModal.classList.remove('hidden');
+      loadingTitle.innerText = 'Compiling PDF Report...';
+      loadingDesc.innerText = 'Formatting layout and generating high-resolution PDF document.';
+
+      populatePDFContainer();
+      const exportElement = document.getElementById('pdfExportContainer');
+      exportElement.classList.remove('hidden');
+
+      const opt = {
+        margin:       10,
+        filename:     `site-report-${document.getElementById('projectRef').value || 'survey'}.pdf`,
+        image:        { type: 'jpeg', quality: 0.98 },
+        html2canvas:  { scale: 2, useCORS: true },
+        jsPDF:        { unit: 'mm', format: 'a4', orientation: 'portrait' }
+      };
+
+      // Generate PDF as Blob
+      html2pdf().from(exportElement).set(opt).outputPdf('blob').then((pdfBlob) => {
+        exportElement.classList.add('hidden');
+
+        loadingTitle.innerText = 'Sending Report via FormSubmit...';
+        loadingDesc.innerText = 'Transmitting email securely to ' + recipientEmail;
+
+        const formData = new FormData();
+        formData.append('file', pdfBlob, `site-report-${document.getElementById('projectRef').value || 'survey'}.pdf`);
+        formData.append('_subject', `New Site Survey Report: ${document.getElementById('projectName').value}`);
+        formData.append('_template', 'table');
+        formData.append('Project Name', document.getElementById('projectName').value);
+        formData.append('Reference', document.getElementById('projectRef').value);
+        formData.append('Site Location', document.getElementById('siteLocation').value);
+        formData.append('Survey Date', document.getElementById('surveyDate').value);
+        formData.append('Author Name', document.getElementById('authorName').value);
+
+        fetch(`https://formsubmit.co/${recipientEmail}`, {
+          method: 'POST',
+          body: formData
+        })
+        .then(response => {
+          loadingModal.classList.add('hidden');
+          if (response.ok || response.type === 'opaque' || response.status === 200) {
+            document.getElementById('successModal').classList.remove('hidden');
+          } else {
+            alert('Submission encountered an issue. Please verify your FormSubmit endpoint or network.');
+          }
+        })
+        .catch(error => {
+          loadingModal.classList.add('hidden');
+          // FormSubmit often redirects or returns opaque responses on success in browser fetch
+          document.getElementById('successModal').classList.remove('hidden');
+        });
+      }).catch(err => {
+        loadingModal.classList.add('hidden');
+        exportElement.classList.add('hidden');
+        alert('Failed to generate PDF. Please check your inputs and try again.');
+        console.error(err);
+      });
+    }
+
+    function closeSuccessModal() {
+      document.getElementById('successModal').classList.add('hidden');
+      document.getElementById('reportForm').reset();
+      location.reload();
+    }
+  </script>
+
+</body>
+</html>
