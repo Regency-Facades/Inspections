@@ -187,7 +187,7 @@
             <span>Add Photo Group</span>
           </button>
         </div>
-        <p class="text-[11px] text-slate-400 mb-3">Each group gets a title and description and starts on its own page, under the report header.</p>
+        <p class="text-[11px] text-slate-400 mb-3">Each group gets a title and description and flows continuously through the report to make full use of each page.</p>
         <div id="photoGroupsContainer" class="space-y-6"></div>
       </div>
 
@@ -545,23 +545,34 @@
 
       /* Full branded header (same as page 1) drawn on every page */
       function drawHeader() {
-        let ly = M;
+        // Three zones: logo (left), company name (centre), slogan + contact (right)
+        let bottom = M + 12;
         if (vals.logo && vals.logoDims) {
-          const b = fitBox(vals.logoDims, 48, 15);
-          doc.addImage(vals.logo, imgFmt(vals.logo), M, ly, b.w, b.h);
-          ly += b.h + 2.5;
+          const b = fitBox(vals.logoDims, 38, 15);
+          doc.addImage(vals.logo, imgFmt(vals.logo), M, M, b.w, b.h);
+          bottom = Math.max(bottom, M + b.h);
         }
-        setF(15, 'bold'); setC(COL.dark); txt(vals.company, M, ly + 4); ly += 7;
-        if (vals.address) { setF(8.5, 'normal'); setC(COL.gray); const ls = doc.splitTextToSize(vals.address, 92); txt(ls, M, ly + 2); ly += ls.length * 3.6 + 1.5; }
-        if (vals.contact) { setF(8.5, 'normal'); setC(COL.gray); const ls = doc.splitTextToSize(vals.contact, 92); txt(ls, M, ly + 2); ly += ls.length * 3.6 + 1.5; }
-        setF(16, 'bold'); setC(COL.indigo); txt('REPORT', W - M, M + 6, { align: 'right' });
-        setF(9, 'normal'); setC(COL.gray);
-        txt('Ref: ' + vals.ref, W - M, M + 12, { align: 'right' });
-        txt('Date: ' + vals.date, W - M, M + 17, { align: 'right' });
-        const headBottom = Math.max(ly, M + 20) + 3;
+        setF(15, 'bold'); setC(COL.dark);
+        const nameLines = doc.splitTextToSize(vals.company, 68);
+        const nameH = nameLines.length * 6;
+        txt(nameLines, W / 2, M + Math.max(0, (15 - nameH) / 2) + 5, { align: 'center' });
+        bottom = Math.max(bottom, M + nameH);
+        let ry = M + 3;
+        setF(8.5, 'normal'); setC(COL.gray);
+        [vals.address, vals.contact].forEach(function (t) {
+          if (!t) return;
+          const ls = doc.splitTextToSize(t, 54);
+          txt(ls, W - M, ry, { align: 'right' });
+          ry += ls.length * 3.6 + 1.5;
+        });
+        bottom = Math.max(bottom, ry - 2);
+        const headBottom = bottom + 3;
         doc.setFillColor(COL.indigo[0], COL.indigo[1], COL.indigo[2]);
         doc.rect(M, headBottom, CW, 1.0, 'F');
-        y = headBottom + 6;
+        setF(11, 'bold'); setC(COL.indigo); txt('REPORT', M, headBottom + 7);
+        setF(8.5, 'normal'); setC(COL.gray);
+        txt('Ref: ' + vals.ref + '   |   Date: ' + vals.date, W - M, headBottom + 7, { align: 'right' });
+        y = headBottom + 12;
       }
       function ensure(h) {
         if (y + h > H - FOOT) { doc.addPage(); drawHeader(); }
@@ -669,10 +680,10 @@
       }
       let photoNo = 0;
       groups.forEach(function (g, gi) {
-        doc.addPage(); drawHeader();
         if (gi === 0) secHeading(3, 'Photographic Evidence');
 
         const barH = 9;
+        ensure(barH + 5 + 50);
         doc.setFillColor(COL.indigoBg[0], COL.indigoBg[1], COL.indigoBg[2]);
         doc.rect(M, y, CW, barH, 'F');
         doc.setFillColor(COL.indigo[0], COL.indigo[1], COL.indigo[2]);
@@ -717,13 +728,10 @@
         photoNo += g.photos.length;
       });
 
-      /* Signatures start on a fresh page when photo groups were added */
-      if (groups.length) { doc.addPage(); drawHeader(); }
-
       /* ---- 4. Authorisation and Signature ---- */
-      secHeading(4, 'Authorisation and Signature');
       const sigH = 44, sigGap = 6, sigW = (CW - sigGap) / 2;
-      ensure(sigH + 4);
+      ensure(13 + sigH + 10);
+      secHeading(4, 'Authorisation and Signature');
       [
         { title: 'AUTHOR / ASSESSOR', name: vals.authorName, role: vals.authorTitle, sig: vals.sigSurveyor },
         { title: 'AUTHORISED BY', name: vals.authName || '', role: vals.authRole || '', sig: vals.sigAuth }
