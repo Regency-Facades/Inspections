@@ -26,7 +26,6 @@
         </div>
         <div>
           <h1 class="font-bold text-base leading-tight">ReportPro</h1>
-          <p class="text-xs text-slate-400">Together we Build Trust</p>
         </div>
       </div>
       <button onclick="previewPDF()" class="bg-slate-800 hover:bg-slate-700 text-slate-200 border border-slate-700 text-xs px-3 py-1.5 rounded-lg transition flex items-center space-x-1.5">
@@ -765,7 +764,6 @@
         doc.line(M, H - 11, W - M, H - 11);
         setF(7.5, 'normal'); setC(COL.gray);
         txt('Confidential & Proprietary — ' + vals.company + '  |  Ref: ' + vals.ref, M, H - 7);
-        setF(7.5, 'bold'); txt('Together we Build Trust', W / 2, H - 3.5, { align: 'center' });
         setF(7.5, 'normal');
         txt('Page ' + p + ' of ' + n, W - M, H - 7, { align: 'right' });
       }
